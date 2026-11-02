@@ -1,0 +1,50 @@
+THE CASINO - COMMANDS
+=====================
+Bets: type a number, 5k, half or all.  /games shows everything in Discord.
+
+---------- CASINO GAMES ----------
+/blackjack <bet>              beat the dealer (Hit / Stand / Double). Blackjack pays 3:2
+/slots <bet>                  slot machine. Triple 7️⃣ pays x300
+/spin <bet> <on> [number]     roulette wheel: red, black, odd, even, 1-18, 19-36 (x2), green 0 or a number (x36)
+/coinflip <bet> <side>        heads or tails, pays x1.95
+/duel <@person> <bet>         you both bet, a coinflip decides, winner takes it all
+/highlow <bet>                higher or lower card streak, cash out anytime
+/crash <bet>                  the rocket climbs, cash out before it explodes
+/mines <bet> [mines]          find gems, avoid bombs (1-15 mines, more = bigger wins)
+/scratch                      buy a scratch card (100 coins) and click the squares
+Every game has a "Play again" button.
+
+---------- GUILLOTINE (your original, unchanged rules) ----------
+/roulette                     put yourself on trial: 50/50. Lose = banned (with a one-use invite DM'd to you)
+                              Survive = +500 coins. The crowd can bet 100 on "lives" or "dies" (pays double)
+/execute <@person>            mods only: drag someone to the guillotine
+/pardon <user>                mods only: unban
+/graveyard                    most deaths
+(The server owner and anyone with a role above the bot can't be executed.)
+
+---------- ROLE ROLLER ----------
+/reroll                       get a personal role with a random funny name and color (once a day)
+                              On cooldown? Pay 500 coins to reroll right away
+/ratings                      most liked / disliked names (rate them with 👍 👎 after each reroll)
+/cooldown set|default|reset   admins: change the reroll wait
+
+---------- PARTY ----------
+/truthordare                  Truth / Dare / Random buttons. Do a dare and press "I did it" for 50 coins
+/wouldyourather               everyone votes, live results
+/rob <@person>                40% chance to steal 5-15% of their coins. Fail = you pay them a fine. 1 hour cooldown
+Edit the questions in the prompts folder (truths.txt, dares.txt, would_you_rather.txt: "A | B").
+
+---------- MONEY ----------
+/balance [@person]   /daily (streak bonus up to 7 days)   /weekly   /give <@person> <amount>
+/leaderboard [richest / wins / biggest win / total won]   /profile [@person]
+/shop   /buy <role>        special roles, created automatically
+
+---------- ADMINS ----------
+/casino channel add|remove|list|everywhere [#channel]   where games can be played
+/casino coins <@person> <amount>                       give coins (minus number = take)
+
+---------- FILES ----------
+settings.py      all settings (prices, rewards, shop roles, guillotine ban/kick/timeout...). Restart after changing
+.env             DISCORD_TOKEN=your_token   (never share this file)
+casino.json      everyone's coins and stats (made automatically; your old data.json/graveyard.json are imported once)
+prompts\         truth or dare / would you rather questions
