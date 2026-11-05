@@ -12,6 +12,7 @@ from ..bank import bank
 from ..ui import coins, oops
 
 DEFAULT_COOLDOWN = 24 * 60 * 60
+SKIP_PRICE = getattr(config, "REROLL_SKIP_PRICE", 500)  # coins to skip the cooldown (0 = off)
 
 NAME_POOLS = {
     "Noble": [
@@ -163,18 +164,18 @@ class SkipView(discord.ui.View):
     def __init__(self, cog, user):
         super().__init__(timeout=60)
         self.cog, self.user = cog, user
-        self.pay.label = f"Reroll now for {config.REROLL_SKIP_PRICE:,} coins"
+        self.pay.label = f"Reroll now for {SKIP_PRICE:,} coins"
 
     @discord.ui.button(emoji="🪙", style=discord.ButtonStyle.blurple)
     async def pay(self, interaction, button):
         if interaction.user.id != self.user.id:
             return await oops(interaction, "🙅 Not your button!")
-        if not bank.take(self.user.id, config.REROLL_SKIP_PRICE):
-            return await oops(interaction, f"💸 You need {coins(config.REROLL_SKIP_PRICE)}. Try `/daily`.")
+        if not bank.take(self.user.id, SKIP_PRICE):
+            return await oops(interaction, f"💸 You need {coins(SKIP_PRICE)}. Try `/daily`.")
         self.stop()
-        await interaction.response.edit_message(content=f"🪙 Paid {coins(config.REROLL_SKIP_PRICE)}, rerolling...", view=None)
+        await interaction.response.edit_message(content=f"🪙 Paid {coins(SKIP_PRICE)}, rerolling...", view=None)
         if not await self.cog.do_reroll(interaction):
-            bank.add(self.user.id, config.REROLL_SKIP_PRICE)  # it failed: refund
+            bank.add(self.user.id, SKIP_PRICE)  # it failed: refund
 
 
 class Reroll(commands.Cog):
@@ -258,7 +259,7 @@ class Reroll(commands.Cog):
         left = get_cooldown(interaction.guild_id) - (time.time() - entry.get("last", 0))
         if left > 0:
             h, m = int(left // 3600), int(left % 3600 // 60)
-            if config.REROLL_SKIP_PRICE:
+            if SKIP_PRICE:
                 return await interaction.response.send_message(f"⏳ You can reroll in {h}h {m}m... or skip the wait:",
                                                                view=SkipView(self, interaction.user), ephemeral=True)
             return await oops(interaction, f"⏳ You can reroll in {h}h {m}m.")

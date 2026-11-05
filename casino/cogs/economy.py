@@ -15,6 +15,8 @@ GAMES = """**🎰 Casino**
 `/roulette` 50/50 trial, survive for coins · `/execute` (mods) · `/pardon` (mods) · `/graveyard`
 **🎲 Role Roller**
 `/reroll` random role name + color · `/ratings` best & worst names · `/cooldown` (admins)
+**🧊 Icebreakers**
+`/question` random question, would you rather or this or that · `/icebreaker setup` (admins)
 **🎉 Party**
 `/truthordare` · `/wouldyourather` · `/rob` 🦹 steal coins (might backfire)
 **💰 Money**

@@ -37,5 +37,18 @@ ROB_CHANCE = 0.40         # chance a robbery works
 ROB_COOLDOWN_MINUTES = 60
 DARE_REWARD = 50          # coins for doing a dare
 
+# ---------- icebreakers & question of the hour ----------
+# Turn it on in Discord with:  /icebreaker setup #channel   (then /icebreaker now to test)
+# The questions/roasts/welcome lines are text files in the prompts folder: edit them anytime, no restart needed.
+ICE_EVERY_MINUTES = 60        # a new question this often
+ICE_QUIET_HOURS = (2, 10)     # no questions from 2am to 10am (None = post all night)
+ICE_UTC_OFFSET = 4            # your time zone for quiet hours (UAE = 4)
+ICE_NO_ANSWER_MINUTES = 30    # roast the silence after this long with no answers
+ICE_MAX_IGNORED = 3           # ignored this many times in a row = it naps until someone talks
+ICE_ROAST = True              # crickets lines can call out people who chatted recently
+ICE_FIRST_REWARD = 25         # coins for the first answer/vote
+ICE_WELCOME_REWARD = 100      # coins for a new member answering their welcome question
+ICE_MIX = {"question": 3, "wyr": 2, "this_or_that": 2}   # how often each kind shows up (0 = never)
+
 # ---------- role roller ----------
 REROLL_SKIP_PRICE = 500   # coins to /reroll right away when you're on cooldown (0 = can't skip)

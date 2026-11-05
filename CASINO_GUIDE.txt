@@ -28,6 +28,21 @@ Every game has a "Play again" button.
 /ratings                      most liked / disliked names (rate them with 👍 👎 after each reroll)
 /cooldown set|default|reset   admins: change the reroll wait
 
+---------- ICEBREAKERS & QUESTION OF THE HOUR ----------
+/question [kind]              post a random question, would you rather, or this or that (anyone)
+/icebreaker setup [#channel] [#welcome channel]   admins: turn it on
+/icebreaker every <minutes>   how often (default 60)
+/icebreaker quiet <from> <to> no questions at night (your time), e.g. 2 10
+/icebreaker now               post one right now (test)
+/icebreaker welcome_test      see a new-member welcome
+/icebreaker status | off
+- New members get welcomed with a question; answering gives +100 coins
+- First answer/vote on any question: +25 coins
+- Nobody answers in 30 min = it roasts the chat. Ignored 3 times = it naps until someone talks
+Edit in prompts\: questions.txt, icebreakers.txt, this_or_that.txt, would_you_rather.txt,
+                  welcomes.txt ({user}), crickets.txt ({member}, {answer}), naps.txt, my_answers.txt
+Settings: the ICE_ lines in settings.py
+
 ---------- PARTY ----------
 /truthordare                  Truth / Dare / Random buttons. Do a dare and press "I did it" for 50 coins
 /wouldyourather               everyone votes, live results

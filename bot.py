@@ -18,7 +18,7 @@ from casino import config
 from casino.bank import bank
 from casino.ui import CasinoError
 
-COGS = ["economy", "blackjack", "guillotine", "arcade", "party", "reroll"]
+COGS = ["economy", "blackjack", "guillotine", "arcade", "party", "reroll", "icebreaker"]
 
 
 class Casino(commands.Bot):
@@ -46,6 +46,8 @@ class Casino(commands.Bot):
 async def on_app_error(interaction, error):
     if isinstance(error, CasinoError):
         msg = str(error)
+    elif isinstance(error, app_commands.CommandOnCooldown):
+        msg = f"⏳ Slow down! Try again in {error.retry_after:.0f}s."
     elif isinstance(error, app_commands.MissingPermissions):
         msg = "🚫 Only the royal executioners (mods) can do that."
     elif isinstance(error, app_commands.CheckFailure):
