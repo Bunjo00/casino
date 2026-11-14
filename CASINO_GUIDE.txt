@@ -43,6 +43,15 @@ Edit in prompts\: questions.txt, icebreakers.txt, this_or_that.txt, would_you_ra
                   welcomes.txt ({user}), crickets.txt ({member}, {answer}), naps.txt, my_answers.txt
 Settings: the ICE_ lines in settings.py
 
+---------- LOANS ----------
+/loan take <amount>           borrow from the bank (+10% interest, 3 days). Limit grows the more you play
+/loan pay [amount]            pay the bank back (empty = as much as you can)
+/loan status [@person]        what you owe and who owes you
+/lend <@person> <amount> [interest%] [days]   offer a loan to a friend (they click Accept)
+/repay <@person> [amount]     pay a friend back
+/forgive <@person>            cancel what they owe YOU (admins: cancel all their debts)
+Miss a deadline = a funny debt role (🦈 Loan Shark Bait, 🤡 Financially Challenged...) until it's paid or forgiven.
+
 ---------- PARTY ----------
 /truthordare                  Truth / Dare / Random buttons. Do a dare and press "I did it" for 50 coins
 /wouldyourather               everyone votes, live results
@@ -57,6 +66,7 @@ Edit the questions in the prompts folder (truths.txt, dares.txt, would_you_rathe
 ---------- ADMINS ----------
 /casino channel add|remove|list|everywhere [#channel]   where games can be played
 /casino coins <@person> <amount>                       give coins (minus number = take)
+/casino setcoins <@person> <amount>                    set their coins to exactly this (0 = wipe)
 
 ---------- FILES ----------
 settings.py      all settings (prices, rewards, shop roles, guillotine ban/kick/timeout...). Restart after changing

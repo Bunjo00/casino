@@ -47,6 +47,20 @@ ROB_COOLDOWN_MINUTES = _get("ROB_COOLDOWN_MINUTES", 60)
 DARE_REWARD = _get("DARE_REWARD", 50)
 REROLL_SKIP_PRICE = _get("REROLL_SKIP_PRICE", 500)
 
-DATA_FILE = os.path.join(ROOT, "casino.json")
+LOAN_INTEREST = _get("LOAN_INTEREST", 10)
+LOAN_DAYS = _get("LOAN_DAYS", 3)
+LOAN_MAX_BASE = _get("LOAN_MAX_BASE", 1000)
+LOAN_PER_GAME = _get("LOAN_PER_GAME", 20)
+LOAN_MAX = _get("LOAN_MAX", 10000)
+LEND_MAX_INTEREST = _get("LEND_MAX_INTEREST", 50)
+DEBT_ROLES = _get("DEBT_ROLES", ["🦈 Loan Shark Bait", "💸 Broke & Owing", "🤡 Financially Challenged",
+                                 "🧾 Professional Debtor", "🪦 Credit Score: 0", "🐀 Owes The House"])
+DEBT_ROLE_COLOR = _get("DEBT_ROLE_COLOR", 0x7F8C8D)
+
+# Where coins/loans/roles are saved. On Railway, attach a Volume and this uses it automatically,
+# so nothing gets wiped when the bot updates.
+DATA_DIR = os.getenv("DATA_DIR") or os.getenv("RAILWAY_VOLUME_MOUNT_PATH") or ROOT
+os.makedirs(DATA_DIR, exist_ok=True)
+DATA_FILE = os.path.join(DATA_DIR, "casino.json")
 OLD_FILES = [os.path.join(ROOT, "data.json"), os.path.join(ROOT, "graveyard.json"), os.path.join(ROOT, "roles.json")]
 PROMPTS_FOLDER = os.path.join(ROOT, "prompts")

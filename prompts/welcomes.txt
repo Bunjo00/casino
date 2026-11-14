@@ -1,0 +1,6 @@
+# Welcome lines. {user} = the new member.
+👋 Everyone act normal, {user} just joined!
+🎉 A wild {user} appeared!
+🚪 {user} walked in. Somebody hide the snacks.
+🌟 Welcome {user}! We were just talking about you (we weren't).
+🎰 {user} has entered the casino. The house says hi.

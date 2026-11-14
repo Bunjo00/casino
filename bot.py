@@ -18,7 +18,7 @@ from casino import config
 from casino.bank import bank
 from casino.ui import CasinoError
 
-COGS = ["economy", "blackjack", "guillotine", "arcade", "party", "reroll", "icebreaker"]
+COGS = ["economy", "blackjack", "guillotine", "arcade", "party", "reroll", "icebreaker", "loans"]
 
 
 class Casino(commands.Bot):

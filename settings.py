@@ -50,5 +50,16 @@ ICE_FIRST_REWARD = 25         # coins for the first answer/vote
 ICE_WELCOME_REWARD = 100      # coins for a new member answering their welcome question
 ICE_MIX = {"question": 3, "wyr": 2, "this_or_that": 2}   # how often each kind shows up (0 = never)
 
+# ---------- loans ----------
+LOAN_INTEREST = 10        # % extra you pay back to the bank
+LOAN_DAYS = 3             # days to pay the bank back
+LOAN_MAX_BASE = 1000      # everyone can borrow this much...
+LOAN_PER_GAME = 20        # ...plus this much per game they've played
+LOAN_MAX = 10000          # never more than this
+LEND_MAX_INTEREST = 50    # highest % interest players can charge each other
+DEBT_ROLES = ["🦈 Loan Shark Bait", "💸 Broke & Owing", "🤡 Financially Challenged",
+              "🧾 Professional Debtor", "🪦 Credit Score: 0", "🐀 Owes The House"]  # funny roles for late payers
+DEBT_ROLE_COLOR = 0x7F8C8D
+
 # ---------- role roller ----------
 REROLL_SKIP_PRICE = 500   # coins to /reroll right away when you're on cooldown (0 = can't skip)

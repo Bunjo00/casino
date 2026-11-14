@@ -240,14 +240,12 @@ class Party(commands.Cog):
         make_prompt_files()
 
     @app_commands.command(name="truthordare", description="🎉 Truth or dare? Press a button")
-    @games_only()
     async def truthordare(self, interaction: discord.Interaction):
         embed = discord.Embed(title="🎉 Truth or Dare", color=GREEN,
                               description="Press a button to get a **truth** or a **dare**.\nAnyone can play!")
         await interaction.response.send_message(embed=embed, view=TruthOrDare())
 
     @app_commands.command(name="wouldyourather", description="🤷 Would you rather... everyone votes")
-    @games_only()
     async def wouldyourather(self, interaction: discord.Interaction):
         view = new_wyr()
         await interaction.response.send_message(embed=view.embed(), view=view)

@@ -83,6 +83,22 @@ class CrowdBets(discord.ui.View):
                 + f" (+{coins(config.GUILLOTINE_SIDE_BET)} each)")
 
 
+def returns(guild_id):
+    """People who were executed: user id -> the role ids to give back when they rejoin."""
+    return bank.data.setdefault("returns", {}).setdefault(str(guild_id), {})
+
+
+def remember_roles(member):
+    me = member.guild.me.top_role
+    keep = [r.id for r in member.roles if not r.is_default() and not r.managed and r < me]
+    returns(member.guild.id)[str(member.id)] = keep
+    bank.dirty = True
+
+
+def was_executed(guild_id, user_id):
+    return str(user_id) in bank.data.get("returns", {}).get(str(guild_id), {})
+
+
 async def punish(guild, channel, target):
     """Carries out the sentence. Returns an error message, or None if it worked."""
     mode = config.GUILLOTINE_PUNISHMENT
@@ -138,8 +154,11 @@ async def trial(interaction, target):
 
         doomed = random.random() < 0.5
         if doomed:
+            if config.GUILLOTINE_PUNISHMENT != "timeout":
+                remember_roles(target)  # (a ban/kick takes all roles away: they get them back when they return)
             problem = await punish(guild, interaction.channel, target)
-            if problem:  # nothing happened: give the crowd their money back
+            if problem:
+                returns(guild.id).pop(str(target.id), None)  # nothing happened: give the crowd their money back
                 crowd.open = False
                 crowd.stop()
                 for uid in crowd.bets:
@@ -165,6 +184,21 @@ trial.running = {}
 
 
 class Guillotine(commands.Cog):
+    @commands.Cog.listener()
+    async def on_member_join(self, member):
+        saved = returns(member.guild.id).pop(str(member.id), None)
+        if saved is None:
+            return
+        bank.dirty = True
+        me = member.guild.me.top_role
+        roles = [r for r in (member.guild.get_role(i) for i in saved) if r and r < me]
+        if roles:
+            try:
+                await member.add_roles(*roles, reason="Back from the dead: roles restored")
+                print(f"✨ gave {member} their {len(roles)} roles back")
+            except discord.HTTPException as e:
+                print(f"⚠️ couldn't restore {member}'s roles: {e}")
+
     @app_commands.command(name="roulette", description="🪓 Put yourself on trial. 50/50. Survive for coins. Good luck.")
     @games_only()
     async def roulette(self, interaction: discord.Interaction):
@@ -184,7 +218,8 @@ class Guillotine(commands.Cog):
         try:
             await interaction.guild.unban(user, reason=f"Pardoned by {interaction.user}")
             await interaction.response.send_message(
-                f"✨ **RESURRECTION!** {user.name} has been pardoned by the crown. They may return to the land of the living.")
+                f"✨ **RESURRECTION!** {user.name} has been pardoned by the crown. They may return to the land of the living."
+                + (" Their roles will be waiting for them. 🎖️" if was_executed(interaction.guild_id, user.id) else ""))
         except discord.NotFound:
             await oops(interaction, f"🤔 {user.name} isn't dead. Yet.")
 

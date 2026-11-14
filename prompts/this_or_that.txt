@@ -1,0 +1,15 @@
+# This or That. Format:  Option A | Option B
+🍕 Pizza | 🍔 Burger
+☀️ Summer | ❄️ Winter
+🎮 PC | 🕹️ Console
+🌅 Sunrise | 🌇 Sunset
+☕ Coffee | 🧋 Bubble tea
+🐱 Cats | 🐶 Dogs
+🎬 Movies | 📺 Series
+🏖️ Beach | 🏔️ Mountains
+🍫 Sweet | 🧂 Salty
+🎧 Headphones | 🔊 Speakers
+📱 Call | 💬 Text
+🌙 Night | 🌞 Day
+🍟 Fries | 🧅 Onion rings
+🧙 Wizard | 🦸 Superhero

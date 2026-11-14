@@ -17,6 +17,8 @@ GAMES = """**🎰 Casino**
 `/reroll` random role name + color · `/ratings` best & worst names · `/cooldown` (admins)
 **🧊 Icebreakers**
 `/question` random question, would you rather or this or that · `/icebreaker setup` (admins)
+**🏦 Loans**
+`/loan take` borrow from the bank · `/loan pay` · `/loan status` · `/lend` lend to a friend · `/repay` · `/forgive`
 **🎉 Party**
 `/truthordare` · `/wouldyourather` · `/rob` 🦹 steal coins (might backfire)
 **💰 Money**
@@ -106,6 +108,11 @@ class Economy(commands.Cog):
         embed.add_field(name="🎮 Games", value=f"{u['games']:,} played\n{u['wins']:,} won ({winrate})")
         embed.add_field(name="📈 Profit", value=f"{'+' if net >= 0 else ''}{net:,}\nbest win {u['biggest']:,}")
         embed.add_field(name="🔥 Daily streak", value=str(u["streak"]))
+        loans = bank.data.get("loans", {})
+        owes = loans.get("bank", {}).get(str(user.id), {}).get("owed", 0) + sum(
+            l["owed"] for l in loans.get("friends", []) if l["borrower"] == user.id)
+        if owes:
+            embed.add_field(name="🧾 Debt", value=coins(owes))
         embed.add_field(name="🪓 Guillotine", value=f"☠️ {grave.get('deaths', 0)} · 🍀 {grave.get('survivals', 0)}")
         embed.add_field(name="🎖️ Roles", value="\n".join(roles) or "none yet, `/shop`", inline=False)
         await interaction.response.send_message(embed=embed)
@@ -174,6 +181,14 @@ class Economy(commands.Cog):
         await interaction.response.send_message(
             f"🏦 {'Added' if amount >= 0 else 'Took'} {coins(abs(amount))} {'to' if amount >= 0 else 'from'} {user.mention}. "
             f"New balance: {coins(bank.balance(user.id))}", allowed_mentions=discord.AllowedMentions.none())
+
+
+    @casino.command(name="setcoins", description="Set someone's coins to an exact amount (0 = wipe them)")
+    async def admin_setcoins(self, interaction: discord.Interaction, user: discord.Member, amount: app_commands.Range[int, 0]):
+        old = bank.balance(user.id)
+        bank.add(user.id, amount - old)
+        await interaction.response.send_message(
+            f"🏦 {user.mention}'s coins: {coins(old)} → **{coins(amount)}**", allowed_mentions=discord.AllowedMentions.none())
 
 
 async def setup(bot):

@@ -101,6 +101,14 @@ def save():
     bank.dirty = True
 
 
+ALL_NAMES = {name for pool in NAME_POOLS.values() for name in pool}
+
+
+def executed(gid, uid):
+    """Executed by the guillotine and expected back: keep their reroll role."""
+    return str(uid) in bank.data.get("returns", {}).get(str(gid), {})
+
+
 def get_entry(gid, uid):
     return data().setdefault(str(gid), {}).setdefault(str(uid), {})
 
@@ -209,6 +217,8 @@ class Reroll(commands.Cog):
                 if not isinstance(entry, dict) or "role_id" not in entry:
                     continue
                 role = guild.get_role(entry["role_id"])
+                if executed(guild.id, uid):
+                    continue
                 if role is None or not role.members:
                     await self.delete_role(guild, uid)
 
@@ -218,6 +228,8 @@ class Reroll(commands.Cog):
 
     @commands.Cog.listener()
     async def on_member_remove(self, member):
+        if executed(member.guild.id, member.id):
+            return  # they'll be back after a /pardon, keep their role
         await self.delete_role(member.guild, member.id)
 
     async def do_reroll(self, interaction):
@@ -225,6 +237,18 @@ class Reroll(commands.Cog):
         guild, user = interaction.guild, interaction.user
         entry = get_entry(guild.id, user.id)
         role = guild.get_role(entry.get("role_id", 0))
+        # reroll roles they already have (e.g. from before the bot forgot them): reuse one, remove the rest
+        old = [r for r in user.roles if r.name in ALL_NAMES and r != role and r < guild.me.top_role]
+        if role is None and old:
+            role = old.pop(0)
+            entry["role_id"] = role.id
+        for extra in old:
+            try:
+                await user.remove_roles(extra, reason="Reroll: replacing old role")
+                if not [m for m in extra.members if m.id != user.id]:
+                    await extra.delete(reason="Reroll: old role nobody has")
+            except discord.HTTPException:
+                pass
         name, cat = pick_name(guild.id, current=role.name if role else None)
         color = discord.Color(random.randint(1, 0xFFFFFF))  # 0 = no color, so start at 1
         try:

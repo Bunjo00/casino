@@ -1,0 +1,7 @@
+.env
+casino.json
+casino.json.tmp
+data.json
+graveyard.json
+roles.json
+__pycache__/
