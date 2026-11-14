@@ -1,4 +1,6 @@
 """💰 Wallet, daily/weekly, giving, leaderboards, profile, the role shop, the games menu and admin tools."""
+import random
+
 import discord
 from discord import app_commands
 from discord.ext import commands
@@ -189,6 +191,36 @@ class Economy(commands.Cog):
         bank.add(user.id, amount - old)
         await interaction.response.send_message(
             f"🏦 {user.mention}'s coins: {coins(old)} → **{coins(amount)}**", allowed_mentions=discord.AllowedMentions.none())
+
+
+    @casino.command(name="giveall", description="👑 Royal handout: give coins to everyone (or only the broke ones)")
+    @app_commands.describe(amount="Coins each person gets", who="Everyone, or only people who are broke",
+                           message="Your royal words (optional)")
+    @app_commands.choices(who=[app_commands.Choice(name="👥 Everyone", value="all"),
+                               app_commands.Choice(name="🥺 Only the broke (under 500)", value="broke")])
+    async def admin_giveall(self, interaction: discord.Interaction, amount: app_commands.Range[int, 1, 1_000_000],
+                            who: app_commands.Choice[str] = None, message: str = None):
+        broke_only = who is not None and who.value == "broke"
+        members = [m for m in interaction.guild.members if not m.bot]
+        ids = {m.id for m in members} or {int(u) for u in bank.data["users"]}  # (no member list? use known players)
+        lucky = [uid for uid in ids if not broke_only or bank.balance(uid) < 500]
+        if not lucky:
+            return await oops(interaction, "👑 Nobody is broke, Your Majesty. The peasants are thriving.")
+        for uid in lucky:
+            bank.add(uid, amount)
+        king = interaction.user.mention
+        lines = ([f"🥺 {king} looked upon the broke peasants and felt... pity. **{len(lucky)}** of them get **{coins(amount)}** each.",
+                  f"🍞 {king} tossed some bread to the poor. **{len(lucky)}** broke souls receive **{coins(amount)}**.",
+                  f"👑 {king} saw the beggars outside the castle. **{coins(amount)}** each for **{len(lucky)}** of them. Don't waste it."]
+                 if broke_only else
+                 [f"👑 By royal decree, {king} throws **{coins(amount)}** to every peasant in the kingdom! (**{len(lucky)}** people)",
+                  f"🏰 The royal treasury opens! {king} blesses **{len(lucky)}** subjects with **{coins(amount)}** each.",
+                  f"🪙 {king} is feeling generous today. Everyone gets **{coins(amount)}**. Bow, peasants. 🙇"])
+        embed = discord.Embed(title="📜 A Royal Decree", description=random.choice(lines), color=GOLD)
+        if message:
+            embed.add_field(name="The King speaks:", value=f"*\"{message[:500]}\"*", inline=False)
+        embed.set_footer(text="Long live the King 👑")
+        await interaction.response.send_message(embed=embed, allowed_mentions=discord.AllowedMentions.none())
 
 
 async def setup(bot):

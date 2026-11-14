@@ -67,6 +67,7 @@ Edit the questions in the prompts folder (truths.txt, dares.txt, would_you_rathe
 /casino channel add|remove|list|everywhere [#channel]   where games can be played
 /casino coins <@person> <amount>                       give coins (minus number = take)
 /casino setcoins <@person> <amount>                    set their coins to exactly this (0 = wipe)
+/casino giveall <amount> [everyone/broke] [message]    👑 royal handout to the whole server
 
 ---------- FILES ----------
 settings.py      all settings (prices, rewards, shop roles, guillotine ban/kick/timeout...). Restart after changing
