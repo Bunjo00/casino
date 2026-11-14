@@ -22,7 +22,7 @@ GAMES = """**🎰 Casino**
 **🏦 Loans**
 `/loan take` borrow from the bank · `/loan pay` · `/loan status` · `/lend` lend to a friend · `/repay` · `/forgive`
 **🎉 Party**
-`/truthordare` · `/wouldyourather` · `/rob` 🦹 steal coins (might backfire)
+`/truthordare` · `/wouldyourather` · `/rob` 🦹 steal coins · `/steal` 🦹 steal a role (might backfire)
 **💰 Money**
 `/balance` · `/daily` · `/weekly` · `/give` · `/leaderboard` · `/profile` · `/shop` · `/buy`
 -# Bets: type a number, `5k`, `half` or `all`"""

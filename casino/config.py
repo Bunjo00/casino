@@ -57,6 +57,13 @@ DEBT_ROLES = _get("DEBT_ROLES", ["🦈 Loan Shark Bait", "💸 Broke & Owing", "
                                  "🧾 Professional Debtor", "🪦 Credit Score: 0", "🐀 Owes The House"])
 DEBT_ROLE_COLOR = _get("DEBT_ROLE_COLOR", 0x7F8C8D)
 
+STEAL_CHANCE = _get("STEAL_CHANCE", 0.35)
+STEAL_COST = _get("STEAL_COST", 300)
+STEAL_FINE = _get("STEAL_FINE", 200)
+STEAL_COOLDOWN_MINUTES = _get("STEAL_COOLDOWN_MINUTES", 180)
+STEAL_PROTECT_MINUTES = _get("STEAL_PROTECT_MINUTES", 60)
+STEAL_NEVER = _get("STEAL_NEVER", [])
+
 # Where coins/loans/roles are saved. On Railway, attach a Volume and this uses it automatically,
 # so nothing gets wiped when the bot updates.
 DATA_DIR = os.getenv("DATA_DIR") or os.getenv("RAILWAY_VOLUME_MOUNT_PATH") or ROOT

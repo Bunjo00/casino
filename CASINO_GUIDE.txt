@@ -43,6 +43,12 @@ Edit in prompts\: questions.txt, icebreakers.txt, this_or_that.txt, would_you_ra
                   welcomes.txt ({user}), crickets.txt ({member}, {answer}), naps.txt, my_answers.txt
 Settings: the ICE_ lines in settings.py
 
+---------- ROLE HEISTS ----------
+/steal <@person> [role]       try to steal one of their roles (35% chance, costs 300 coins)
+                              Caught = 200 fine paid to them. 3 hour cooldown. Victims are safe for 1 hour after
+Only harmless roles: never admin/mod roles, bot roles, boost roles, reroll roles or debt roles.
+Block more in settings.py: STEAL_NEVER = ["Member", ...]
+
 ---------- LOANS ----------
 /loan take <amount>           borrow from the bank (+10% interest, 3 days). Limit grows the more you play
 /loan pay [amount]            pay the bank back (empty = as much as you can)

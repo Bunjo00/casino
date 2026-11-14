@@ -61,5 +61,14 @@ DEBT_ROLES = ["🦈 Loan Shark Bait", "💸 Broke & Owing", "🤡 Financially Ch
               "🧾 Professional Debtor", "🪦 Credit Score: 0", "🐀 Owes The House"]  # funny roles for late payers
 DEBT_ROLE_COLOR = 0x7F8C8D
 
+# ---------- role stealing (/steal) ----------
+STEAL_CHANCE = 0.35           # chance a heist works
+STEAL_COST = 300              # coins to attempt (paid either way)
+STEAL_FINE = 200              # extra fine paid to the victim if you get caught
+STEAL_COOLDOWN_MINUTES = 180  # how long a thief waits between heists
+STEAL_PROTECT_MINUTES = 60    # someone who just got robbed is safe for this long
+STEAL_NEVER = []              # role names that can never be stolen, e.g. ["Member", "Verified"]
+# (roles with admin/mod powers, bot roles, boost roles, reroll roles and debt roles can never be stolen anyway)
+
 # ---------- role roller ----------
 REROLL_SKIP_PRICE = 500   # coins to /reroll right away when you're on cooldown (0 = can't skip)
